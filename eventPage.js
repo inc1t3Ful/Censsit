@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
             chrome.pageAction.show(tabs[0].id);
         });
         chrome.tabs.executeScript({
-        file: 'jquery-3.3.1.js'
+        file: 'content.js'
         });
     }
 });

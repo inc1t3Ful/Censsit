@@ -1,5 +1,4 @@
 chrome.runtime.sendMessage({todo: "showPageAction"});
-console.log("content.js");
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
  	if (request.todo == "censorBadWord"){
@@ -8,30 +7,25 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
  	}
  })
 
-function parseDoc(){
+var parseDoc =function(){
     var badword = false;
     var blockComment = true;
     var x = document.getElementsByClassName("md");
-    var sentences;
-    var paragraph;
-    //var paragraphs = document.getElementsByTagNameNS
 
     for (var i = 0; i<x.length; i++) {
-        // var htmlString = x[i];
-        var cleanText = x[i].innerText.replace(/(\r\n|\n|\r)/gm, "")
-        //var strippedHTML = $("<p>").html(htmlString).text();
-        
+        var cleanText = x[i].innerText.replace(/(\r\n|\n|\r)/gm, "")        
         console.log(cleanText);
         var comment = x[i].innerText.toLowerCase().replace(/(\r\n|\n|\r)/gm, "").split(/[ ,.:?-]+/);
         //console.log(comment);       
         badword = censor(comment);
         if (badword){
-            blockComment = main(cleanText);
-            if (blockComment) {
+            //blockComment = main(cleanText);
+            //console.log(blockComment);
+            //if (blockComment) {
                 
-                x[i].innerHTML = "This comment contains extremely negative language and has been filtered.";
-            }
-            else x[i].style.backgroundColor = "black";;
+                x[i].innerHTML = "This comment contains offensive language and has been filtered.";
+            //}
+            //else x[i].style.backgroundColor = "black";
 
         }
     }
@@ -55,16 +49,15 @@ function censor(comment) {
 
 var API_KEY = 'AIzaSyCcaZGV_Luzm9CpzfQej4z-EKLoemIg7mk';
 
-/*function refresh(f) {
+function refresh(f) {
   if( /in/.test(document.readyState) ) {
       // in condition || (typeof Gmail === undefined) 
     setTimeout('refresh(' + f + ')', 10);
   } else {
     f();
   }
-}*/
+}
 
-// Don't warn twice for the same draft
 var warned = {};
 
 function main(comment){
@@ -87,7 +80,7 @@ function main(comment){
       if(nlpreq.readyState == 4 && nlpreq.status == 200) {
 
         response = JSON.parse(nlpreq.responseText);
-          console.log(response);
+          //console.log(response);
         sentiment = parseFloat(response['documentSentiment']['score']);
         magnitude = parseFloat(response['documentSentiment']['magnitude']);
           console.log("sentiment: "+sentiment);
@@ -95,11 +88,12 @@ function main(comment){
         if (sentiment < -0.5 && magnitude > 0.6) {
             //alert("Careful! These comments are pretty negative.");
             confirmBlock=true;
+            console.log(confirmBlock);
           }
         }
       }
     return confirmBlock;
-};
+}
 
-parseDoc();
-//refresh(parseDoc());
+//parseDoc();
+refresh(parseDoc);
