@@ -17,40 +17,21 @@ function parseDoc(){
     //var paragraphs = document.getElementsByTagNameNS
 
     for (var i = 0; i<x.length; i++) {
-            var htmlString = x[i];
-    var strippedHTML = $("<p>").html(htmlString).text();
-    console.log(strippedHTML);
-        //console.log(x[i].innerHTML);
-        //sentences= x[i].childNodes;
-        //for (var j = 0; j<sentences.length; j++){
-          //  paragraph += sentences[j].innerHTML+" ";
-           // console.log(paragraph);
-        //}
-            
-        //x[i].style.backgroundColor = "black";
-        //var separators = [' ', '\<p\>', '\<\/p\>','\<a href=', '\<\/a\>', 'class ='];
-        //var separators = [' '];
-
-        var comment = x[i].innerHTML.replace('\<p\>','');
-        comment = comment.replace('\<\/p\>','');
-
-        //comment = comment.replace('.','');
-        //comment = comment.replace('?','');
-        //comment = comment.replace('!','');
-        //comment = comment.replace(',','');
-        //comment = comment.toLowerCase().split(new RegExp(separators.join('|'),'g'));                   
-
-        console.log(comment);       
+        // var htmlString = x[i];
+        var cleanText = x[i].innerText.replace(/(\r\n|\n|\r)/gm, "")
+        //var strippedHTML = $("<p>").html(htmlString).text();
+        
+        console.log(cleanText);
+        var comment = x[i].innerText.toLowerCase().replace(/(\r\n|\n|\r)/gm, "").split(/[ ,.:?-]+/);
+        //console.log(comment);       
         badword = censor(comment);
         if (badword){
-            blockComment = true;
+            blockComment = main(cleanText);
             if (blockComment) {
-                //console.log(x[i].innerHTML);
-                x[i].style.backgroundColor = "black";
-                //x.removeChild(x[i]);
-                //x[i].innerHTML = "This comment possibly contains offensive language and has been filtered.";
+                
+                x[i].innerHTML = "This comment contains extremely negative language and has been filtered.";
             }
-            else console.log("not charged enough");
+            else x[i].style.backgroundColor = "black";;
 
         }
     }
@@ -111,7 +92,7 @@ function main(comment){
         magnitude = parseFloat(response['documentSentiment']['magnitude']);
           console.log("sentiment: "+sentiment);
           console.log("magnitude: "+magnitude);
-        if (sentiment < -0.2 && magnitude > 0.6) {
+        if (sentiment < -0.5 && magnitude > 0.6) {
             //alert("Careful! These comments are pretty negative.");
             confirmBlock=true;
           }
