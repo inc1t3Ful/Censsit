@@ -24,6 +24,7 @@ var parseDoc =function(){
             //if (blockComment) {
                 
                 x[i].innerHTML = "This comment contains offensive language and has been filtered.";
+                x[i].style.backgroundColor = "red";
             //}
             //else x[i].style.backgroundColor = "black";
 
@@ -47,7 +48,7 @@ function censor(comment) {
 }
 //parseDoc();
 
-var API_KEY = 'AIzaSyCcaZGV_Luzm9CpzfQej4z-EKLoemIg7mk';
+var API_KEY = 'api-key';
 
 function refresh(f) {
   if( /in/.test(document.readyState) ) {
