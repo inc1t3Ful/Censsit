@@ -3,9 +3,9 @@ chrome.runtime.sendMessage({todo: "showPageAction"});
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
     if (request.todo == "censorBadWord"){
         var word = request.clickedWord;
-        $('.commentarea .sitetable .usertext p').text('bad word');
+        $('.commentarea .sitetable .usertext p').text(word);
     }
- })
+ });
 
 var parseDoc =function(){
     var badword = false;
@@ -13,16 +13,16 @@ var parseDoc =function(){
     var x = document.getElementsByClassName("md");
 
     for (var i = 0; i<x.length; i++) {
-        var cleanText = x[i].innerText.replace(/(\r\n|\n|\r)/gm, "")        
+        var cleanText = x[i].innerText.replace(/(\r\n|\n|\r)/gm, "")
         console.log(cleanText);
         var comment = x[i].innerText.toLowerCase().replace(/(\r\n|\n|\r)/gm, "").split(/[ ,.:?-]+/);
-        //console.log(comment);       
+        //console.log(comment);
         badword = censor(comment);
         if (badword){
             //blockComment = main(cleanText);
             //console.log(blockComment);
             //if (blockComment) {
-                
+
                 x[i].innerHTML = "This comment contains offensive language and has been filtered.";
                 x[i].style.backgroundColor = "red";
             //}
@@ -41,7 +41,7 @@ function censor(comment) {
             if (comment[j]==badWords[k]){
                 badword = true;
                 break;
-            }   
+            }
         }
     }
     return badword;
@@ -52,7 +52,7 @@ var API_KEY = 'api-key';
 
 function refresh(f) {
   if( /in/.test(document.readyState) ) {
-      // in condition || (typeof Gmail === undefined) 
+      // in condition || (typeof Gmail === undefined)
     setTimeout('refresh(' + f + ')', 10);
   } else {
     f();
