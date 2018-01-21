@@ -2,15 +2,18 @@
 <html>
 	<head>
 		<title>Censor </title>
+		<script src="jquery-3.3.1.min.js"></script>
+		<script src="popup.js"></script>
 	</head>
 	<style>
-		body{			min-width: 150px;
+		body{			
+			min-width: 150px;
 			min-height: 150px;
 		}
 	</style>
 	<body>
 		<h2>Please censor: </h2> <br>
-		<input type="checkbox" id="profanity" value="profanity"> profane comments <br>
-		<input type="checkbox" id="sexist" value="sexist"> sexist comments <br>
+		<input type="checkbox" id="bad_word" value="fuck"> fuck <br>
+		 <input type="submit" id="btnCensor" value="Censor"/>
 	</body>
 </html>
